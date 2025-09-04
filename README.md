@@ -35,7 +35,7 @@ The goal was to create a single-page application that is not only functional but
 
 ### 📸 Screenshots
 
-<img src="./assets/screenshot.png" alt="Screenshot of the project showcase" width="800"/>
+<img src="./assets/screenshot1.png" alt="Screenshot of the project showcase" width="800"/>
 
 <br>
 
