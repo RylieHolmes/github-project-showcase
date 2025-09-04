@@ -1,9 +1,6 @@
 # GitHub Project Showcase
 
 <div align="center">
-</div>
-
-<div align="center">
   <p>
     <strong>A dynamic and visually appealing portfolio to display your GitHub projects, built with React, TypeScript, and Tailwind CSS.</strong>
   </p>
@@ -32,21 +29,14 @@ The goal was to create a single-page application that is not only functional but
 
 ### 🚀 Live Demo
 
-<!--
-  TODO: Add the link to your live GitHub Pages site here once it's deployed!
--->
-**[Link to Your Deployed Site Here]**
+**[https://rylieholmes.github.io/github-project-showcase/]**
 
 <br>
 
 ### 📸 Screenshots
 
-<!-- 
-  TODO: Add a screenshot of your application! 
-  You can take a screenshot and drag it directly into this README on GitHub.
--->
-*A screenshot of the main project grid.*
-<img src="" alt="Screenshot of the project showcase" width="800"/>
+*A screenshot of the main page.*
+<img src="./assets/screenshot.png" alt="Screenshot of the project showcase" width="800"/>
 
 <br>
 
@@ -76,12 +66,10 @@ Make sure you have Node.js and npm installed on your machine.
 1.  **Clone the repository:**
     ```sh
     git clone https://github.com/your-username/github-project-showcase.git
-    ```
-2.  **Navigate to the project directory:**
+    ```2.  **Navigate to the project directory:**
     ```sh
     cd github-project-showcase
-    ```
-3.  **Install NPM packages:**
+    ```3.  **Install NPM packages:**
     ```sh
     npm install
     ```
