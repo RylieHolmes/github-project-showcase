@@ -7,7 +7,6 @@ import ForkIcon from './icons/ForkIcon';
 import GithubIcon from './icons/GithubIcon';
 
 import { marked } from 'marked';
-import { markedEmoji } from 'marked-emoji';
 import DOMPurify from 'dompurify';
 
 interface ProjectDetailProps {
@@ -30,18 +29,23 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
         
         if (readmeContent) {
           const renderer = new marked.Renderer();
+          
+          // --- THIS IS THE FIX FOR THE NEW ERROR ---
+          // Make the image renderer more robust.
           renderer.image = (href, title, text) => {
-            const imageUrl = href || '';
-            if (!imageUrl.startsWith('http')) {
-              const absoluteUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/${imageUrl.replace(/^\.\//, '')}`;
+            // First, check if href is a valid string. If not, just return the alt text.
+            if (typeof href !== 'string' || !href) {
+              return text;
+            }
+
+            // Now we know it's a string, so we can safely call .startsWith()
+            if (!href.startsWith('http')) {
+              const absoluteUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/${href.replace(/^\.\//, '')}`;
               return `<img src="${absoluteUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
             }
-            return `<img src="${imageUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
+            return `<img src="${href}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
           };
 
-          // --- THIS IS THE FIX ---
-          // Initialize markedEmoji without any options to use its default emoji set.
-          marked.use(markedEmoji());
           marked.setOptions({ renderer });
           
           const rawHtml = await marked.parse(readmeContent);
@@ -52,7 +56,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
         }
       } catch (err) {
         if (err instanceof Error) {
-          setError(err.message);
+          setError(err.message); 
         } else {
           setError('Could not load README.');
         }
@@ -108,7 +112,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
       
       <div className="prose prose-invert max-w-none mt-8">
         {loading && <LoadingSpinner />}
-        {error && <p className="text-red-400 bg-red-900/50 p-4 rounded-lg">{error}</p>}
+        {error && <div className="text-center text-red-400 bg-red-900/50 p-4 rounded-lg">{error}</div>}
         {!loading && !error && readme && (
           <div
             className="markdown-content"
