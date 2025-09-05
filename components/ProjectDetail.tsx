@@ -39,7 +39,9 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
             return `<img src="${imageUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
           };
 
-          marked.use(markedEmoji({ github: true }));
+          // --- THIS IS THE FIX ---
+          // Initialize markedEmoji without any options to use its default emoji set.
+          marked.use(markedEmoji());
           marked.setOptions({ renderer });
           
           const rawHtml = await marked.parse(readmeContent);
@@ -63,7 +65,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
 
   return (
     <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-purple-800/30">
-      {/* --- THIS BLOCK IS NOW CORRECTED --- */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
            <button
@@ -107,7 +108,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
       
       <div className="prose prose-invert max-w-none mt-8">
         {loading && <LoadingSpinner />}
-        {error && <p className="text-red-400">{error}</p>}
+        {error && <p className="text-red-400 bg-red-900/50 p-4 rounded-lg">{error}</p>}
         {!loading && !error && readme && (
           <div
             className="markdown-content"
