@@ -1,0 +1,5 @@
+{
+  "name": "GitHub Project Showcase",
+  "description": "A visually appealing web application to display GitHub projects for a specific user, built with React and Tailwind CSS.",
+  "requestFramePermissions": []
+}
