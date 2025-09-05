@@ -6,9 +6,10 @@ import StarIcon from './icons/StarIcon';
 import ForkIcon from './icons/ForkIcon';
 import GithubIcon from './icons/GithubIcon';
 
-// Make marked and DOMPurify available in the component
-declare const marked: any;
-declare const DOMPurify: any;
+// --- NEW IMPORTS ---
+import { marked } from 'marked';
+import { markedEmoji } from 'marked-emoji';
+import DOMPurify from 'dompurify';
 
 interface ProjectDetailProps {
   repo: GithubRepo;
@@ -27,8 +28,33 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
         setLoading(true);
         setError(null);
         const readmeContent = await fetchRepoReadme(username, repo.name);
+        
         if (readmeContent) {
-          const rawHtml = marked.parse(readmeContent);
+          // --- NEW MARKED CONFIGURATION ---
+          
+          // 1. Create a custom renderer to fix image paths
+          const renderer = new marked.Renderer();
+          renderer.image = (href, title, text) => {
+            const imageUrl = href || '';
+            // If the path is relative, convert it to an absolute GitHub URL
+            if (!imageUrl.startsWith('http')) {
+              // Assumes 'main' is the default branch. This works for most modern repos.
+              const absoluteUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/${imageUrl.replace(/^\.\//, '')}`;
+              return `<img src="${absoluteUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
+            }
+            // Otherwise, use the original URL
+            return `<img src="${imageUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
+          };
+
+          // 2. Use the emoji extension and the custom renderer
+          marked.use(markedEmoji({
+            // Use GitHub-flavored emoji syntax
+            github: true, 
+          }));
+          marked.setOptions({ renderer });
+          
+          // 3. Parse, sanitize, and set the final HTML
+          const rawHtml = await marked.parse(readmeContent);
           const sanitizedHtml = DOMPurify.sanitize(rawHtml);
           setReadme(sanitizedHtml);
         } else {
@@ -45,7 +71,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
       }
     };
     loadReadme();
-  }, [repo.name, username]);
+  }, [repo.name, repo.full_name, username]); // Added repo.full_name for safety
 
   return (
     <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-purple-800/30">
