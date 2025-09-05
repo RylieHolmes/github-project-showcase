@@ -16,7 +16,7 @@ The goal was to create a single-page application that is not only functional but
 
 <br>
 
-### ✨ Key Features
+###   Key Features
 
 *   **Dynamic User Profile:** Automatically fetches and displays the latest user information from GitHub, including avatar, bio, and follower stats.
 *   **Interactive Project Grid:** Repositories are displayed in a responsive grid layout with project cards that highlight key information like stars, forks, and the primary language.
@@ -27,19 +27,19 @@ The goal was to create a single-page application that is not only functional but
 
 <br>
 
-### 🚀 Live Demo
+###   Live Demo
 
 **[https://rylieholmes.github.io/github-project-showcase/]**
 
 <br>
 
-### 📸 Screenshots
+###   Screenshots
 
 <img src="./assets/screenshot1.png" alt="Screenshot of the project showcase" width="800"/>
 
 <br>
 
-## 🛠️ Tech Stack
+##   Tech Stack
 
 This project was built using a modern frontend stack:
 
@@ -51,7 +51,7 @@ This project was built using a modern frontend stack:
 
 <br>
 
-## ⚙️ Getting Started
+##   Getting Started
 
 To get a local copy up and running, follow these simple steps.
 
@@ -95,7 +95,7 @@ const GITHUB_USERNAME = 'YourGitHubUsernameHere'; // <-- Change this value
 
 <br>
 
-## 🗺️ Future Improvements
+##   Future Improvements
 
 While the project is fully functional, here are some ideas for future enhancements:
 
@@ -106,6 +106,6 @@ While the project is fully functional, here are some ideas for future enhancemen
 
 <br>
 
-## 📄 License
+##   License
 
 Distributed under the MIT License. See `LICENSE` for more information.
