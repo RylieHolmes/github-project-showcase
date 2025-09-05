@@ -6,7 +6,6 @@ import StarIcon from './icons/StarIcon';
 import ForkIcon from './icons/ForkIcon';
 import GithubIcon from './icons/GithubIcon';
 
-// --- NEW IMPORTS ---
 import { marked } from 'marked';
 import { markedEmoji } from 'marked-emoji';
 import DOMPurify from 'dompurify';
@@ -30,30 +29,19 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
         const readmeContent = await fetchRepoReadme(username, repo.name);
         
         if (readmeContent) {
-          // --- NEW MARKED CONFIGURATION ---
-          
-          // 1. Create a custom renderer to fix image paths
           const renderer = new marked.Renderer();
           renderer.image = (href, title, text) => {
             const imageUrl = href || '';
-            // If the path is relative, convert it to an absolute GitHub URL
             if (!imageUrl.startsWith('http')) {
-              // Assumes 'main' is the default branch. This works for most modern repos.
               const absoluteUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/${imageUrl.replace(/^\.\//, '')}`;
               return `<img src="${absoluteUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
             }
-            // Otherwise, use the original URL
             return `<img src="${imageUrl}" alt="${text}" title="${title || ''}" class="rounded-lg shadow-md my-4" />`;
           };
 
-          // 2. Use the emoji extension and the custom renderer
-          marked.use(markedEmoji({
-            // Use GitHub-flavored emoji syntax
-            github: true, 
-          }));
+          marked.use(markedEmoji({ github: true }));
           marked.setOptions({ renderer });
           
-          // 3. Parse, sanitize, and set the final HTML
           const rawHtml = await marked.parse(readmeContent);
           const sanitizedHtml = DOMPurify.sanitize(rawHtml);
           setReadme(sanitizedHtml);
@@ -71,10 +59,11 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ repo, username, onBack })
       }
     };
     loadReadme();
-  }, [repo.name, repo.full_name, username]); // Added repo.full_name for safety
+  }, [repo.name, username]);
 
   return (
     <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-purple-800/30">
+      {/* --- THIS BLOCK IS NOW CORRECTED --- */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
            <button
