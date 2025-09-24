@@ -110,7 +110,7 @@ To showcase your own GitHub projects, you just need to change one line of code!
 // src/App.tsx
 
 const GITHUB_USERNAME = 'RylieHolmes'; 
-
+```
 ---
 
 ## 🗺️ Roadmap
