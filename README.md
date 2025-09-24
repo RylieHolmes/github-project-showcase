@@ -109,7 +109,7 @@ To showcase your own GitHub projects, you just need to change one line of code!
 ```typescript
 // src/App.tsx
 
-const GITHUB_USERNAME = 'Rylie'; 
+const GITHUB_USERNAME = 'RylieHolmes'; 
 
 ---
 
